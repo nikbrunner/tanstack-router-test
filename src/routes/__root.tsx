@@ -14,9 +14,18 @@ export const Route = createRootRoute({
         <Link to="/about" className="[&.active]:font-bold">
           About
         </Link>
+        <Link
+          to="/github/$username"
+          params={{ username: "nikbrunner" }}
+          className="[&.active]:font-bold"
+        >
+          Github
+        </Link>
       </div>
       <hr />
-      <Outlet />
+      <div className="p-2">
+        <Outlet />
+      </div>
       <TanStackRouterDevtools />
     </>
   ),

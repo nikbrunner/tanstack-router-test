@@ -14,6 +14,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as WorkImport } from './routes/work'
 import { Route as AboutImport } from './routes/about'
 import { Route as IndexImport } from './routes/index'
+import { Route as GithubUsernameImport } from './routes/github.$username'
 
 // Create/Update Routes
 
@@ -32,6 +33,12 @@ const AboutRoute = AboutImport.update({
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const GithubUsernameRoute = GithubUsernameImport.update({
+  id: '/github/$username',
+  path: '/github/$username',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -60,6 +67,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WorkImport
       parentRoute: typeof rootRoute
     }
+    '/github/$username': {
+      id: '/github/$username'
+      path: '/github/$username'
+      fullPath: '/github/$username'
+      preLoaderRoute: typeof GithubUsernameImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -69,12 +83,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/work': typeof WorkRoute
+  '/github/$username': typeof GithubUsernameRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/work': typeof WorkRoute
+  '/github/$username': typeof GithubUsernameRoute
 }
 
 export interface FileRoutesById {
@@ -82,14 +98,15 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/work': typeof WorkRoute
+  '/github/$username': typeof GithubUsernameRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/work'
+  fullPaths: '/' | '/about' | '/work' | '/github/$username'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/work'
-  id: '__root__' | '/' | '/about' | '/work'
+  to: '/' | '/about' | '/work' | '/github/$username'
+  id: '__root__' | '/' | '/about' | '/work' | '/github/$username'
   fileRoutesById: FileRoutesById
 }
 
@@ -97,12 +114,14 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   WorkRoute: typeof WorkRoute
+  GithubUsernameRoute: typeof GithubUsernameRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   WorkRoute: WorkRoute,
+  GithubUsernameRoute: GithubUsernameRoute,
 }
 
 export const routeTree = rootRoute
@@ -117,7 +136,8 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/about",
-        "/work"
+        "/work",
+        "/github/$username"
       ]
     },
     "/": {
@@ -128,6 +148,9 @@ export const routeTree = rootRoute
     },
     "/work": {
       "filePath": "work.tsx"
+    },
+    "/github/$username": {
+      "filePath": "github.$username.tsx"
     }
   }
 }
